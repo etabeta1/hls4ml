@@ -252,6 +252,7 @@ class VivadoBackend(FPGABackend):
         write_weights_txt=True,
         write_tar=False,
         tb_output_stream='both',
+        write_top_level_pragmas=True,
         **_,
     ):
         """Create initial configuration of the Vivado backend.
@@ -268,6 +269,8 @@ class VivadoBackend(FPGABackend):
             write_tar (bool, optional): If True, compresses the output directory into a .tar.gz file. Defaults to False.
             tb_output_stream (str, optional): Controls where to write the output. Options are 'stdout', 'file' and 'both'.
                 Defaults to 'both'.
+            write_top_level_pragmas (bool, optional): If True, writes the generated top-level
+                Vivado HLS pipeline/dataflow pragma. Defaults to True.
 
         Returns:
             dict: initial configuration.
@@ -284,6 +287,7 @@ class VivadoBackend(FPGABackend):
             'WriteWeightsTxt': write_weights_txt,
             'WriteTar': write_tar,
             'TBOutputStream': tb_output_stream,
+            'WriteTopLevelPragmas': write_top_level_pragmas,
         }
 
         return config

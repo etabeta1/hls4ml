@@ -210,6 +210,8 @@ class VivadoWriter(Writer):
                 else:
                     pipeline_pragma += '\n'
 
+                write_top_level_pragmas = model.config.get_writer_config().get('WriteTopLevelPragmas', True)
+
                 if io_type == 'io_parallel':
                     for i in model_inputs:
                         newline += indent + self._make_array_pragma(i) + '\n'
@@ -220,7 +222,8 @@ class VivadoWriter(Writer):
                     newline += indent + '#pragma HLS INTERFACE ap_vld port={},{} \n'.format(
                         ','.join(all_inputs), ','.join(all_outputs)
                     )
-                    newline += pipeline_pragma
+                    if write_top_level_pragmas:
+                        newline += pipeline_pragma
 
                 if io_type == 'io_stream':
                     newline += indent + '#pragma HLS INTERFACE axis port={},{} \n'.format(
@@ -228,7 +231,8 @@ class VivadoWriter(Writer):
                     )
                     if all_brams:
                         newline += indent + '#pragma HLS INTERFACE bram port={} \n'.format(','.join(all_brams))
-                    newline += pipeline_pragma
+                    if write_top_level_pragmas:
+                        newline += pipeline_pragma
 
             elif '// hls-fpga-machine-learning insert layers' in line:
                 newline = line + '\n'
